@@ -10,18 +10,18 @@ You just have to provide a Docker image. This repository contains instructions t
 ## Steps
 
 1. Clone this repository
-2. Choose a model and download it to the `workspace` directory. Here we use [this model](https://huggingface.co/TheBloke/WizardLM-1.0-Uncensored-Llama2-13B-GGML) with 13B parameters.
+2. Choose a model and download it to the `workspace` directory. Here we use [this model](https://huggingface.co/TheBloke/Llama-2-7B-GGUF/resolve/main/llama-2-7b.Q4_K_M.gguf) with 7B parameters.
 
 ```
-wget -P workspace https://huggingface.co/TheBloke/WizardLM-1.0-Uncensored-Llama2-13B-GGML/resolve/main/wizardlm-1.0-uncensored-llama2-13b.ggmlv3.q4_K_M.bin
+wget -P workspace https://huggingface.co/TheBloke/Llama-2-7B-GGUF/resolve/main/llama-2-7b.Q4_K_M.gguf
 ```
 
-3. Build the Docker image. Create a `llama-runpod` repository on [Docker Hub](https://hub.docker.com/) and replace `your-docker-hub-login` with your login.
+3. Build the Docker image. Create a `llama-runpod-finetune` repository on [Docker Hub](https://hub.docker.com/) and replace `your-docker-hub-login` with your login.
 
 ```
-docker build -t llama-runpod .
-docker tag llama-runpod your-docker-hub-login/llama-runpod:latest
-docker push your-docker-hub-login/llama-runpod:latest
+docker build -t llama-runpod-finetune .
+docker tag llama-runpod-finetune your-docker-hub-login/llama-runpod:latest
+docker push your-docker-hub-login/llama-runpod-finetune:latest
 ```
 
 4. Go to RunPod's serverless [console](https://www.runpod.io/console/serverless) and create a template:
@@ -32,7 +32,7 @@ docker push your-docker-hub-login/llama-runpod:latest
 You can pass the arguments to `llama_cpp` in the `LLAMA_ARGS` environment variable. Here are mine:
 
 ```
-{"model_path": "wizardlm-1.0-uncensored-llama2-13b.ggmlv3.q4_K_M.bin", "n_gpu_layers": -1}
+{"model": "llama-2-7b.Q4_K_M.gguf", "n_gpu_layers": -1}
 ```
 
 `n_gpu_layers` is set to -1 to offload all layers to the GPU.
