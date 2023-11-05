@@ -46,34 +46,4 @@ You can pass the arguments to `llama_cpp` in the `LLAMA_ARGS` environment variab
 
 Replace `ENDPOINT_ID` and `API_KEY` with your own values. You can get `API_KEY` on [that page](https://www.runpod.io/console/serverless/user/settings).
 
-
-```python
-import requests
-
-url = "https://api.runpod.ai/v2/ENDPOINT_ID"
-headers = {"Authorization": "API_KEY"}
-
-
-payload = {"input": {"prompt": "Me: Hello, what is your purpose?\nAI:"}}
-
-# sync (blocking)
-r = requests.post(url + "/runsync", json=payload, headers=headers)
-r.json()
-
-# async (non-blocking)
-r = requests.post(url + "/run", json=payload, headers=headers)
-id_ = r.json()["id"]
-
-# get async result
-r = requests.get(url + f"/status/{id_}", headers=headers)
-r.json()
-```
-
-You can pass the keyword arguments to LLaMa in the payload. See the llama_cpp [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.__call__) for other arguments.
-
-## Additional details and tips
-
-- clean Docker after a build or if you get into trouble: `docker system prune -a`
-- debug your Docker image with `docker run -it llama-runpod`
-- we froze `llama-cpp-python==0.1.78` in `Dockerfile` because the model format changed from `ggmlv3` to `gguf` in version `0.1.79` but the conversion script in [llama.cpp](https://github.com/ggerganov/llama.cpp) is not fully working
-- you can test `handle.py` locally with `python handle.py`
+TODO 
